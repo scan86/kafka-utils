@@ -1,0 +1,11 @@
+---
+brokers:
+  - broker1
+  - broker2
+  - broker3
+
+zk: 'zk-node1:2181,zk-node2:2181,zk-node3:2181'
+user: clusterLogin
+password: clusterPassword
+
+monit: True
