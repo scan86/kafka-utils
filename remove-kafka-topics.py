@@ -66,8 +66,8 @@ def delete_zk_data():
     zk = KazooClient(hosts=config['zk'])
     zk.start()
 
-    zk.delete("/brokers/topics", recursive=True)
-    zk.delete("/consumers", recursive=True)
+    zk.delete("/kafka/brokers/topics", recursive=True)
+    zk.delete("/kafka/consumers", recursive=True)
 
     zk.stop()
 
