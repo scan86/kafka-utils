@@ -36,6 +36,8 @@ def stop_kafka(ssh, host):
     if config['monit']:
         print "use monit command"
         ssh.exec_command("sudo monit stop kafka")
+        time.sleep(3)
+        ssh.exec_command("sudo /etc/init.d/kafka stop")
     else:
         ssh.exec_command("sudo /etc/init.d/kafka stop")
 
@@ -67,7 +69,11 @@ def delete_zk_data():
     zk.start()
 
     zk.delete("/kafka/brokers/topics", recursive=True)
+    print "Deleted /kafka/brokers/topics data..."
     zk.delete("/kafka/consumers", recursive=True)
+    print "Deleted /kafka/consumers data..."
+    zk.delete("/kafka/config/topics", recursive=True)
+    print "Deleted /kafka/config/topics data..."
 
     zk.stop()
 
@@ -96,7 +102,7 @@ def main():
 
     delete_zk_data()
 
-    # # TODO: Run in parallel
+    # TODO: Run in parallel
     for host in config['brokers']:
         ssh.connect(host, username=config['user'], password=config['password'])
         start_kafka(ssh, host)
